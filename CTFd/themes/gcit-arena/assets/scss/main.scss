@@ -1,0 +1,98 @@
+@use "tokens" as gcit;
+
+@use "bootstrap/scss/bootstrap" as * with (
+  $body-bg: gcit.$gcit-bg,
+  $body-color: gcit.$gcit-text-body,
+  $primary: gcit.$gcit-green,
+  $secondary: gcit.$gcit-orange,
+  $info: gcit.$gcit-blue,
+  $dark: gcit.$gcit-bg-alt,
+  $light: gcit.$gcit-surface,
+  $success: gcit.$gcit-green,
+  $warning: gcit.$gcit-orange,
+  $font-family-sans-serif: (
+    "Inter",
+    system-ui,
+    -apple-system,
+    "Segoe UI",
+    sans-serif,
+  ),
+  $font-family-monospace: (
+    "JetBrains Mono",
+    ui-monospace,
+    monospace,
+  )
+);
+
+@use "includes/components/table";
+@use "includes/components/jumbotron";
+@use "includes/components/challenge";
+@use "includes/components/sticky-footer";
+@use "includes/components/graphs";
+@use "includes/components/shell";
+@use "includes/components/landing";
+@use "includes/components/gamification";
+
+@use "includes/utils/fonts";
+@use "includes/utils/opacity";
+@use "includes/utils/min-height";
+@use "includes/utils/cursors";
+@use "includes/utils/lolight";
+
+@use "includes/icons/award-icons";
+@use "includes/icons/flag-icons";
+
+h1,
+h2,
+h3 {
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  color: var(--gcit-text);
+}
+
+a {
+  text-decoration: none !important;
+}
+
+blockquote {
+  border-left: 4px solid var(--gcit-orange);
+  padding-left: 15px;
+  color: var(--gcit-text-body);
+}
+
+input,
+select {
+  padding: 0.6rem !important;
+  height: auto !important;
+}
+
+.fa-spin.spinner {
+  text-align: center;
+  opacity: 0.5;
+  color: var(--gcit-green);
+}
+
+.badge-notification {
+  vertical-align: top;
+  margin-left: -1.5em;
+  font-size: 50%;
+}
+
+.form-select {
+  background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 4 5'%3e%3cpath fill='%23C4DFF9' d='M2 0L0 2h4zm0 5L0 3h4z'/%3e%3c/svg%3e");
+  background-size: 8px 10px;
+}
+
+/* Force dark GCIT look — hide core light/dark toggle */
+.theme-switch {
+  display: none !important;
+}
+
+[data-bs-theme="light"],
+[data-bs-theme="dark"] {
+  color-scheme: dark;
+}
+
+[x-cloak] {
+  display: none !important;
+}

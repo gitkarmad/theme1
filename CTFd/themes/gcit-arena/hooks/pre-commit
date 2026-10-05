@@ -1,0 +1,20 @@
+#!/usr/bin/env bash
+# GCIT Arena — auto-rebuild guard.
+#
+# Installed into .git/hooks by `yarn install` (see scripts/install-hooks.js).
+# Purely a theme dev-convenience: if a commit stages changes under this
+# theme's `assets/` (source), rebuild `static/` (the Vite output CTFd
+# actually serves) and re-stage it, so a stale hashed bundle can never be
+# committed. Never touches anything outside this theme folder, and never
+# touches CTFd's backend/API code.
+set -e
+
+REPO_ROOT="$(git rev-parse --show-toplevel)"
+THEME_DIR="CTFd/themes/gcit-arena"
+
+if git diff --cached --name-only | grep -q "^${THEME_DIR}/assets/"; then
+  echo "[gcit-arena] Staged theme asset changes detected — rebuilding static/ ..."
+  ( cd "${REPO_ROOT}/${THEME_DIR}" && yarn build )
+  git add "${THEME_DIR}/static"
+  echo "[gcit-arena] static/ rebuilt and staged."
+fi

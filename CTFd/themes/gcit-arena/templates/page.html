@@ -1,0 +1,116 @@
+{% extends "base.html" %}
+
+{% block content %}
+  <!-- Phase 7 gamification: live activity ticker -->
+  <div id="gcit-activity-ticker" class="gcit-ticker" style="display:none" aria-label="Recent activity">
+    <div class="gcit-ticker__track" data-ticker-track></div>
+  </div>
+
+  <section class="gcit-hero" aria-label="GCIT Arena">
+    <div class="gcit-hero__grid" aria-hidden="true"></div>
+    <svg class="gcit-hero__network" viewBox="0 0 1200 700" preserveAspectRatio="xMidYMid slice" aria-hidden="true">
+      <g stroke="#1280B0" stroke-width="1" fill="none" opacity="0.55">
+        <line x1="80" y1="120" x2="280" y2="200"/>
+        <line x1="280" y1="200" x2="420" y2="90"/>
+        <line x1="280" y1="200" x2="520" y2="320"/>
+        <line x1="520" y1="320" x2="760" y2="240"/>
+        <line x1="760" y1="240" x2="980" y2="160"/>
+        <line x1="520" y1="320" x2="700" y2="480"/>
+        <line x1="700" y1="480" x2="940" y2="520"/>
+        <line x1="280" y1="200" x2="180" y2="420"/>
+        <line x1="760" y1="240" x2="900" y2="380"/>
+      </g>
+      <g fill="#74B444">
+        <circle cx="80" cy="120" r="4"/>
+        <circle cx="280" cy="200" r="5"/>
+        <circle cx="420" cy="90" r="3"/>
+        <circle cx="520" cy="320" r="5"/>
+        <circle cx="760" cy="240" r="4"/>
+        <circle cx="980" cy="160" r="3"/>
+        <circle cx="700" cy="480" r="4"/>
+        <circle cx="940" cy="520" r="3"/>
+        <circle cx="180" cy="420" r="3"/>
+        <circle cx="900" cy="380" r="4"/>
+      </g>
+      <g fill="none" stroke="#F68218" stroke-width="1.5" opacity="0.4">
+        <polygon points="980,420 1010,437 1010,471 980,488 950,471 950,437"/>
+        <polygon points="160,520 190,537 190,571 160,588 130,571 130,537"/>
+      </g>
+    </svg>
+
+    <div class="gcit-hero__art" aria-hidden="true">
+      <img
+          src="{{ url_for('views.themes_beta', theme='gcit-arena', path='img/arena-mountain.jpg') }}"
+          alt=""
+      >
+    </div>
+
+    <div class="container gcit-hero__inner">
+      <div class="gcit-hero__content">
+          <div class="gcit-hero__brand">
+            <img
+              class="gcit-logo-mark"
+              src="{{ url_for('views.themes_beta', theme='gcit-arena', path='img/logo-placeholder.svg') }}"
+              alt=""
+              width="64"
+              height="64"
+            >
+            <h1 class="gcit-hero__title">GCIT <span>Arena</span></h1>
+          </div>
+
+          <p class="gcit-hero__headline">Compete. Exploit. Capture the flag.</p>
+          <p class="gcit-hero__support">
+            Official CTF arena of Gyalpozhing College of Information Technology — train like an operator, climb the board, own the hex.
+          </p>
+
+          <div class="gcit-hero__terminal" data-gcit-terminal>
+            <div class="gcit-hero__terminal-intro">
+              <span data-term-text></span><span class="gcit-cursor" aria-hidden="true"></span>
+            </div>
+            <div class="gcit-hero__terminal-log" data-term-log aria-live="polite"></div>
+            <div class="gcit-hero__terminal-prompt">
+              <span>gcit@arena:~$</span>
+              <input
+                  type="text" data-term-input class="gcit-hero__terminal-input" autocomplete="off"
+                  spellcheck="false" aria-label="Terminal command input"
+                  placeholder="type 'help'"
+              >
+            </div>
+          </div>
+
+          <!-- Phase 7 gamification: live stats counters -->
+          <div id="gcit-live-stats" class="gcit-live-stats" style="display:none">
+            <div class="gcit-live-stats__item">
+              <span class="gcit-live-stats__value" id="gcit-stat-solves">0</span>
+              <span class="gcit-live-stats__label">{% trans %}Total Solves{% endtrans %}</span>
+            </div>
+            <div class="gcit-live-stats__item">
+              <span class="gcit-live-stats__value" id="gcit-stat-players">0</span>
+              <span class="gcit-live-stats__label">{% trans %}Active Players{% endtrans %}</span>
+            </div>
+            <div class="gcit-live-stats__item">
+              <span class="gcit-live-stats__value" id="gcit-stat-challenges">0</span>
+              <span class="gcit-live-stats__label">{% trans %}Challenges Unlocked{% endtrans %}</span>
+            </div>
+          </div>
+
+          <div class="gcit-hero__ctas">
+            <a class="btn btn-primary" href="{{ url_for('challenges.listing') }}">Enter Challenges</a>
+            {% if not authed() %}
+              {% if registration_visible() %}
+                <a class="btn btn-outline-arena" href="{{ url_for('auth.register') }}">Register</a>
+              {% else %}
+                <a class="btn btn-outline-arena" href="{{ url_for('auth.login') }}">Login</a>
+              {% endif %}
+            {% else %}
+              <a class="btn btn-outline-arena" href="{{ url_for('scoreboard.listing') }}">Scoreboard</a>
+            {% endif %}
+          </div>
+      </div>
+    </div>
+  </section>
+{% endblock %}
+
+{% block scripts %}
+  {{ Assets.js("assets/js/home.js") }}
+{% endblock %}

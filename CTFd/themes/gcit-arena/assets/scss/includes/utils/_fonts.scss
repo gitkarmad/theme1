@@ -1,0 +1,18 @@
+$fa-font-path: "../webfonts";
+@import "~/@fortawesome/fontawesome-free/scss/fontawesome.scss";
+@import "~/@fortawesome/fontawesome-free/scss/solid.scss";
+@import "~/@fortawesome/fontawesome-free/scss/brands.scss";
+
+html,
+body,
+.container {
+  font-family: var(--gcit-font-sans);
+}
+
+code,
+pre,
+.challenge-input,
+.font-mono,
+.terminal-line {
+  font-family: var(--gcit-font-mono);
+}

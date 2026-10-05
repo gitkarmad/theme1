@@ -1,0 +1,213 @@
+@use "../../tokens" as *;
+
+/* Shell: navbar, footer, forms, surfaces
+-------------------------------------------------- */
+
+body {
+  background-color: var(--gcit-bg);
+  background-image:
+    radial-gradient(ellipse 80% 50% at 50% -10%, rgba(1, 23, 61, 0.9), transparent 60%),
+    linear-gradient(rgba(116, 180, 68, 0.03) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(116, 180, 68, 0.03) 1px, transparent 1px);
+  background-size:
+    auto,
+    40px 40px,
+    40px 40px;
+  background-attachment: fixed;
+  color: var(--gcit-text-body);
+}
+
+.navbar.gcit-navbar {
+  min-height: var(--gcit-nav-height);
+  background: var(--gcit-glass) !important;
+  background-color: var(--gcit-glass) !important;
+  backdrop-filter: blur(12px);
+  border-bottom: 1px solid rgba(116, 180, 68, 0.22);
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.35);
+
+  .navbar-brand {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.65rem;
+    color: var(--gcit-text) !important;
+    font-weight: 700;
+    letter-spacing: 0.04em;
+
+    .gcit-logo-mark {
+      width: 28px;
+      height: 28px;
+      flex-shrink: 0;
+    }
+
+    .gcit-brand-text {
+      font-size: 1rem;
+
+      span {
+        color: var(--gcit-orange);
+      }
+    }
+
+    .ctf_logo {
+      max-height: 28px;
+      width: auto;
+    }
+  }
+
+  .nav-link {
+    color: var(--gcit-text-body) !important;
+    font-weight: 500;
+    border-radius: 0.35rem;
+    transition:
+      color 0.15s ease,
+      background 0.15s ease;
+
+    &:hover,
+    &:focus {
+      color: var(--gcit-green-glow) !important;
+      background: rgba(116, 180, 68, 0.08);
+    }
+  }
+
+  .dropdown-menu {
+    background: var(--gcit-surface);
+    border: 1px solid rgba(100, 165, 213, 0.3);
+
+    .dropdown-item {
+      color: var(--gcit-text-body);
+      cursor: pointer;
+
+      &:hover,
+      &.bg-primary {
+        background: rgba(116, 180, 68, 0.2) !important;
+        color: var(--gcit-text) !important;
+      }
+    }
+  }
+}
+
+.gcit-footer {
+  margin-top: 3rem;
+  padding: 1.5rem 0;
+  border-top: 1px solid rgba(100, 165, 213, 0.2);
+  background: rgba(11, 14, 20, 0.85);
+
+  a {
+    color: var(--gcit-text-muted);
+
+    &:hover {
+      color: var(--gcit-green);
+    }
+  }
+
+  .gcit-credit {
+    color: var(--gcit-text-muted);
+    font-size: 0.8rem;
+  }
+}
+
+.btn-primary {
+  --bs-btn-bg: #{$gcit-green};
+  --bs-btn-border-color: #{$gcit-green};
+  --bs-btn-hover-bg: #{$gcit-green-glow};
+  --bs-btn-hover-border-color: #{$gcit-green-glow};
+  --bs-btn-active-bg: #{$gcit-green};
+  --bs-btn-active-border-color: #{$gcit-green};
+  --bs-btn-color: #0b0e14;
+  --bs-btn-hover-color: #0b0e14;
+  font-weight: 600;
+}
+
+.btn-secondary,
+.btn-outline-secondary {
+  --bs-btn-color: #{$gcit-orange};
+  --bs-btn-border-color: #{$gcit-orange};
+  --bs-btn-hover-bg: #{$gcit-orange};
+  --bs-btn-hover-border-color: #{$gcit-orange};
+  --bs-btn-hover-color: #0b0e14;
+}
+
+.btn-info {
+  --bs-btn-bg: #{$gcit-blue};
+  --bs-btn-border-color: #{$gcit-blue};
+  --bs-btn-hover-bg: #{$gcit-blue-glow};
+  --bs-btn-hover-border-color: #{$gcit-blue-glow};
+  --bs-btn-color: #fff;
+}
+
+.form-control,
+.form-select {
+  background-color: var(--gcit-bg) !important;
+  border: 1px solid rgba(100, 165, 213, 0.35) !important;
+  color: var(--gcit-text) !important;
+
+  &:focus {
+    border-color: var(--gcit-green) !important;
+    box-shadow: var(--gcit-glow-green) !important;
+  }
+
+  &::placeholder {
+    color: var(--gcit-text-muted);
+  }
+}
+
+.form-label,
+label,
+b {
+  color: var(--gcit-text);
+}
+
+.card,
+.modal-content {
+  background: var(--gcit-glass);
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(100, 165, 213, 0.25);
+  color: var(--gcit-text-body);
+}
+
+.alert {
+  border-width: 1px;
+  backdrop-filter: blur(8px);
+}
+
+.nav-pills .nav-link {
+  color: var(--gcit-text-body);
+
+  &.active {
+    background: var(--gcit-green);
+    color: var(--gcit-bg);
+  }
+}
+
+.text-muted {
+  color: var(--gcit-text-muted) !important;
+}
+
+a {
+  color: var(--gcit-blue-glow);
+
+  &:hover {
+    color: var(--gcit-orange);
+  }
+}
+
+/* Hex avatar clip */
+.gcit-hex-avatar,
+img.avatar,
+.user-avatar img {
+  clip-path: polygon(50% 0%, 100% 25%, 100% 75%, 50% 100%, 0% 75%, 0% 25%);
+}
+
+.gcit-glass-panel {
+  background: var(--gcit-glass);
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(100, 165, 213, 0.25);
+  border-radius: var(--gcit-radius);
+  padding: 1.5rem;
+  box-shadow: 0 12px 40px rgba(0, 0, 0, 0.35);
+}
+
+/* Auth / settings forms */
+.gcit-auth-wrap {
+  max-width: 28rem;
+  margin: 0 auto;
+}

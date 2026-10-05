@@ -1,0 +1,47 @@
+@use "../../tokens" as *;
+
+/* Jumbotron / page headers
+-------------------------------------------------- */
+
+main {
+  padding-top: var(--gcit-nav-height);
+  min-height: calc(100vh - 4rem);
+}
+
+.jumbotron {
+  position: relative;
+  overflow: hidden;
+  padding: 2.5rem 1rem;
+  margin-bottom: 2rem;
+  text-align: center;
+  background:
+    radial-gradient(ellipse at top, rgba(18, 128, 176, 0.18), transparent 55%),
+    linear-gradient(180deg, var(--gcit-bg-alt) 0%, var(--gcit-bg) 100%);
+  color: var(--gcit-text);
+  border-bottom: 1px solid rgba(116, 180, 68, 0.2);
+
+  h1 {
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    margin: 0;
+  }
+
+  &::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background-image:
+      linear-gradient(rgba(116, 180, 68, 0.05) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(116, 180, 68, 0.05) 1px, transparent 1px);
+    background-size: 28px 28px;
+    mask-image: radial-gradient(ellipse at center, black 20%, transparent 75%);
+    pointer-events: none;
+  }
+}
+
+@media (min-width: 576px) {
+  .jumbotron {
+    padding: 3.5rem 2rem;
+  }
+}

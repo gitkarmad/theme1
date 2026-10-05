@@ -1,0 +1,916 @@
+@use "../../tokens" as *;
+
+/* Phase 6 — Gamification (view-side only)
+-------------------------------------------------- */
+
+/* Sitewide countdown pressure bar */
+.gcit-countdown-bar {
+  position: fixed;
+  top: var(--gcit-nav-height);
+  left: 0;
+  right: 0;
+  z-index: 1029;
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  padding: 0.25rem 0.9rem;
+  background: rgba(11, 14, 20, 0.85);
+  border-bottom: 1px solid rgba(116, 180, 68, 0.25);
+  font-family: var(--gcit-font-mono);
+  font-size: 0.72rem;
+  letter-spacing: 0.04em;
+}
+
+.gcit-countdown-bar__track {
+  flex: 1;
+  height: 4px;
+  background: rgba(196, 223, 249, 0.12);
+  border-radius: 2px;
+  overflow: hidden;
+  max-width: 12rem;
+}
+
+.gcit-countdown-bar__fill {
+  height: 100%;
+  background: var(--gcit-green);
+  transition: width 1s linear;
+}
+
+.gcit-countdown-bar__label {
+  color: var(--gcit-text-body);
+  white-space: nowrap;
+}
+
+.gcit-countdown-bar--urgent {
+  border-bottom-color: var(--gcit-orange);
+
+  .gcit-countdown-bar__fill {
+    background: var(--gcit-orange);
+    animation: gcit-blink 1s step-end infinite;
+  }
+
+  .gcit-countdown-bar__label {
+    color: var(--gcit-orange);
+  }
+}
+
+.gcit-countdown-bar--ended {
+  .gcit-countdown-bar__fill {
+    background: var(--gcit-text-muted);
+  }
+
+  .gcit-countdown-bar__label {
+    color: var(--gcit-text-muted);
+  }
+}
+
+body.gcit-has-countdown main {
+  padding-top: calc(var(--gcit-nav-height) + 1.75rem);
+}
+
+/* Terminal-style action log */
+.gcit-terminal-log {
+  position: fixed;
+  bottom: 0.75rem;
+  left: 0.75rem;
+  z-index: 1035;
+  width: 17rem;
+  max-width: calc(100vw - 1.5rem);
+  background: rgba(11, 14, 20, 0.9);
+  border: 1px solid rgba(116, 180, 68, 0.3);
+  border-radius: var(--gcit-radius);
+  font-family: var(--gcit-font-mono);
+  font-size: 0.72rem;
+  opacity: 0;
+  transform: translateY(0.5rem);
+  pointer-events: none;
+  transition:
+    opacity 0.2s ease,
+    transform 0.2s ease;
+}
+
+.gcit-terminal-log--active {
+  opacity: 1;
+  transform: translateY(0);
+  pointer-events: auto;
+}
+
+.gcit-terminal-log__header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0.4rem 0.6rem;
+  cursor: pointer;
+  color: var(--gcit-green-glow);
+  border-bottom: 1px solid rgba(116, 180, 68, 0.2);
+}
+
+.gcit-terminal-log__mute {
+  background: none;
+  border: none;
+  color: var(--gcit-text-muted);
+  padding: 0 0.25rem;
+
+  &:hover {
+    color: var(--gcit-green-glow);
+  }
+}
+
+.gcit-terminal-log__list {
+  list-style: none;
+  margin: 0;
+  padding: 0.4rem 0.6rem;
+  max-height: 8.5rem;
+  overflow-y: auto;
+  color: var(--gcit-text-body);
+}
+
+.gcit-terminal-log--collapsed .gcit-terminal-log__list {
+  display: none;
+}
+
+.gcit-terminal-log__entry {
+  padding: 0.15rem 0;
+  line-height: 1.3;
+}
+
+.gcit-terminal-log__time {
+  color: var(--gcit-text-muted);
+  margin-right: 0.35rem;
+}
+
+.gcit-terminal-log__entry--ok {
+  color: var(--gcit-green-glow);
+}
+
+.gcit-terminal-log__entry--err {
+  color: #ff8a8a;
+}
+
+.gcit-terminal-log__entry--warn {
+  color: var(--gcit-orange-glow);
+}
+
+.gcit-terminal-log__entry--info {
+  color: var(--gcit-blue-glow);
+}
+
+/* Persistent Player HUD (navbar) */
+.gcit-hud {
+  display: none;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.2rem 0.65rem;
+  margin-right: 0.5rem;
+  border-radius: 999px;
+  background: rgba(19, 27, 42, 0.75);
+  border: 1px solid rgba(116, 180, 68, 0.3);
+  font-family: var(--gcit-font-mono);
+  font-size: 0.72rem;
+  color: var(--gcit-text-body);
+  white-space: nowrap;
+}
+
+.gcit-hud__rank {
+  color: var(--gcit-green-glow);
+  font-weight: 700;
+  text-transform: uppercase;
+}
+
+.gcit-hud__stat {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.2rem;
+
+  i {
+    color: var(--gcit-orange-glow);
+    font-size: 0.68rem;
+  }
+}
+
+.gcit-hud__progress-track {
+  display: inline-block;
+  width: 3.25rem;
+  height: 5px;
+  border-radius: 3px;
+  background: rgba(196, 223, 249, 0.15);
+  overflow: hidden;
+}
+
+.gcit-hud__progress-fill {
+  display: block;
+  height: 100%;
+  background: linear-gradient(90deg, var(--gcit-green), var(--gcit-blue));
+  transition: width 0.5s ease;
+}
+
+/* Sound & FX toggle (navbar copy of the terminal-log mute button) */
+button.gcit-sound-toggle.nav-link {
+  background: none;
+  border: none;
+  color: var(--gcit-text-muted);
+  padding: 0.4rem 0.5rem;
+
+  &:hover {
+    color: var(--gcit-green-glow);
+  }
+}
+
+@media (max-width: 767.98px) {
+  .gcit-hud {
+    display: none !important;
+  }
+}
+
+/* Daily streak chip (navbar) */
+.gcit-streak-chip {
+  display: none;
+  align-items: center;
+  gap: 0.3rem;
+  padding: 0.15rem 0.5rem;
+  margin-left: 0.35rem;
+  border-radius: 999px;
+  background: rgba(246, 130, 24, 0.15);
+  border: 1px solid rgba(246, 130, 24, 0.4);
+  color: var(--gcit-orange-glow);
+  font-family: var(--gcit-font-mono);
+  font-size: 0.75rem;
+}
+
+/* Operator rank + XP card */
+.gcit-rank-card {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  margin-bottom: 1.5rem;
+}
+
+.gcit-rank-hex {
+  width: 3.25rem;
+  height: 3.75rem;
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  clip-path: polygon(50% 0%, 100% 25%, 100% 75%, 50% 100%, 0% 75%, 0% 25%);
+  font-family: var(--gcit-font-mono);
+  font-weight: 700;
+  color: var(--gcit-bg);
+  background: var(--gcit-text-muted);
+}
+
+@for $i from 1 through 6 {
+  .gcit-rank-tier-#{$i} {
+    background: mix($gcit-green, $gcit-blue, 100% - (($i - 1) / 5) * 100%);
+  }
+}
+
+.gcit-rank-info {
+  flex: 1;
+  min-width: 0;
+}
+
+.gcit-rank-name {
+  font-weight: 700;
+  letter-spacing: 0.03em;
+  color: var(--gcit-text);
+  margin-bottom: 0.35rem;
+}
+
+.gcit-rank-progress {
+  height: 8px;
+  border-radius: 4px;
+  background: rgba(196, 223, 249, 0.12);
+  overflow: hidden;
+}
+
+.gcit-rank-progress__fill {
+  height: 100%;
+  background: linear-gradient(90deg, var(--gcit-green), var(--gcit-blue));
+  transition: width 0.4s ease;
+}
+
+.gcit-rank-next {
+  font-size: 0.78rem;
+  color: var(--gcit-text-muted);
+  margin-top: 0.3rem;
+}
+
+/* RPG title + skill radar chart */
+.gcit-rpg-title {
+  font-family: var(--gcit-font-mono);
+  font-size: 0.85rem;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  color: var(--gcit-orange-glow);
+  margin-top: -0.5rem;
+  margin-bottom: 0.75rem;
+}
+
+.gcit-radar-title {
+  color: var(--gcit-text-muted);
+  font-size: 0.85rem;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
+
+.gcit-radar-canvas {
+  max-height: 16rem;
+}
+
+/* Achievement badges */
+.gcit-badges {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.6rem;
+  margin-bottom: 1.5rem;
+}
+
+.gcit-badge {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  padding: 0.4rem 0.7rem;
+  border-radius: 999px;
+  background: rgba(19, 27, 42, 0.8);
+  border: 1px solid rgba(116, 180, 68, 0.35);
+  color: var(--gcit-green-glow);
+  font-size: 0.78rem;
+
+  i {
+    font-size: 0.85rem;
+  }
+}
+
+.gcit-crest-bronze {
+  border-color: rgba(180, 120, 60, 0.5);
+  color: #d9a066;
+}
+
+.gcit-crest-silver {
+  border-color: rgba(196, 223, 249, 0.5);
+  color: #c4dff9;
+}
+
+.gcit-crest-gold {
+  border-color: rgba(246, 130, 24, 0.6);
+  color: var(--gcit-orange-glow);
+  box-shadow: var(--gcit-glow-orange);
+}
+
+/* Achievement unlock toasts */
+.gcit-achievement-toasts {
+  font-family: var(--gcit-font-mono);
+}
+
+.gcit-achievement-toast {
+  background: rgba(19, 27, 42, 0.95);
+  border: 1px solid var(--gcit-green);
+  color: var(--gcit-text);
+  box-shadow: var(--gcit-glow-green);
+  margin-bottom: 0.5rem;
+
+  i {
+    color: var(--gcit-green-glow);
+    font-size: 1.1rem;
+  }
+}
+
+/* Challenge card tier ribbons */
+.gcit-tier-ribbon {
+  position: absolute;
+  top: 0.4rem;
+  right: 0.4rem;
+  padding: 0.1rem 0.45rem;
+  border-radius: 0.3rem;
+  font-family: var(--gcit-font-mono);
+  font-size: 0.62rem;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  z-index: 1;
+}
+
+.gcit-tier-ribbon--elusive {
+  background: rgba(18, 128, 176, 0.85);
+  color: #fff;
+}
+
+.gcit-tier-ribbon--boss {
+  background: rgba(246, 130, 24, 0.9);
+  color: #0b0e14;
+  box-shadow: var(--gcit-glow-orange);
+}
+
+.challenge-button.gcit-tier-boss {
+  border-color: var(--gcit-orange) !important;
+  box-shadow: var(--gcit-glow-orange);
+}
+
+.challenge-button.gcit-tier-elusive {
+  border-color: var(--gcit-blue) !important;
+  box-shadow: var(--gcit-glow-blue);
+}
+
+/* First Blood ribbon (challenge card) + banner (modal) */
+.gcit-tier-ribbon--first-blood {
+  top: auto;
+  bottom: 0.4rem;
+  right: 0.4rem;
+  background: rgba(207, 38, 0, 0.9);
+  color: #fff;
+  animation: gcit-pulse-fb 1.4s ease-in-out infinite;
+}
+
+.gcit-first-blood-banner {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  justify-content: center;
+  padding: 0.5rem 1rem;
+  margin: -0.5rem 0 1rem;
+  border-radius: var(--gcit-radius);
+  font-family: var(--gcit-font-mono);
+  font-size: 0.85rem;
+  text-align: center;
+}
+
+.gcit-first-blood-banner--available {
+  background: rgba(207, 38, 0, 0.16);
+  border: 1px solid rgba(207, 38, 0, 0.5);
+  color: #ff8a8a;
+  animation: gcit-pulse-fb 1.6s ease-in-out infinite;
+}
+
+.gcit-first-blood-banner--claimed {
+  background: rgba(246, 130, 24, 0.14);
+  border: 1px solid rgba(246, 130, 24, 0.4);
+  color: var(--gcit-orange-glow);
+}
+
+@keyframes gcit-pulse-fb {
+  0%,
+  100% {
+    box-shadow: 0 0 0 rgba(207, 38, 0, 0.4);
+  }
+  50% {
+    box-shadow: 0 0 12px rgba(207, 38, 0, 0.7);
+  }
+}
+
+/* Flag submission FX: glitch on incorrect, neon flash on correct */
+.gcit-flag-fx--incorrect {
+  animation: gcit-glitch 0.5s linear;
+}
+
+.gcit-flag-fx--correct {
+  animation: gcit-neon-flash 0.6s ease-out;
+}
+
+@keyframes gcit-glitch {
+  0% {
+    transform: translate(0);
+    filter: none;
+  }
+  10% {
+    transform: translate(-3px, 2px);
+    filter: hue-rotate(15deg);
+  }
+  20% {
+    transform: translate(3px, -2px);
+  }
+  30% {
+    transform: translate(-2px, 0);
+    filter: hue-rotate(-15deg);
+  }
+  40% {
+    transform: translate(2px, 1px);
+  }
+  50% {
+    transform: translate(-1px, -1px);
+    filter: none;
+  }
+  100% {
+    transform: translate(0);
+  }
+}
+
+@keyframes gcit-neon-flash {
+  0% {
+    box-shadow: 0 0 0 rgba(116, 180, 68, 0);
+  }
+  30% {
+    box-shadow:
+      0 0 40px rgba(116, 180, 68, 0.9),
+      0 0 80px rgba(164, 207, 107, 0.5);
+  }
+  100% {
+    box-shadow: var(--gcit-glow-green);
+  }
+}
+
+/* Skill Tree / Node Map view */
+.gcit-node-map-wrap {
+  padding: 1rem 0 2rem;
+}
+
+.gcit-node-map {
+  display: block;
+  width: 100%;
+  max-width: 45rem;
+  height: auto;
+  margin: 0 auto;
+}
+
+.gcit-node-map__hub {
+  fill: var(--gcit-surface);
+  stroke: var(--gcit-orange);
+  stroke-width: 2;
+  filter: drop-shadow(0 0 8px rgba(246, 130, 24, 0.55));
+}
+
+.gcit-node-map__hub-label {
+  fill: var(--gcit-orange-glow);
+  font-family: var(--gcit-font-mono);
+  font-size: 11px;
+  text-anchor: middle;
+  letter-spacing: 0.05em;
+}
+
+.gcit-node-map__link {
+  stroke: rgba(196, 223, 249, 0.18);
+  stroke-width: 1.5;
+}
+
+.gcit-node-map__link--branch {
+  stroke: rgba(196, 223, 249, 0.12);
+}
+
+.gcit-node-map__cat-circle {
+  fill: var(--gcit-bg-alt);
+  stroke: var(--gcit-blue);
+  stroke-width: 2;
+}
+
+.gcit-node-map__cat-label {
+  fill: var(--gcit-text);
+  font-family: var(--gcit-font-mono);
+  font-size: 10px;
+  text-anchor: middle;
+  text-transform: uppercase;
+}
+
+.gcit-node-map__chal {
+  cursor: pointer;
+  outline: none;
+
+  circle {
+    fill: var(--gcit-text-muted);
+    stroke: rgba(196, 223, 249, 0.35);
+    stroke-width: 1.5;
+    transition: r 0.15s ease;
+  }
+
+  &:hover circle,
+  &:focus circle {
+    r: 15;
+  }
+}
+
+.gcit-node-map__chal--unsolved circle {
+  fill: rgba(18, 128, 176, 0.35);
+  stroke: var(--gcit-blue-glow);
+}
+
+.gcit-node-map__chal--solved circle {
+  fill: var(--gcit-green);
+  stroke: var(--gcit-green-glow);
+  filter: drop-shadow(0 0 6px rgba(116, 180, 68, 0.85));
+}
+
+.gcit-node-map__chal--boss circle {
+  stroke: var(--gcit-orange);
+  stroke-width: 2.5;
+}
+
+.gcit-node-map__legend-dot {
+  display: inline-block;
+  width: 0.6rem;
+  height: 0.6rem;
+  border-radius: 50%;
+  margin-right: 0.25rem;
+  vertical-align: middle;
+}
+
+.gcit-node-map__legend-dot--solved {
+  background: var(--gcit-green);
+  box-shadow: 0 0 6px rgba(116, 180, 68, 0.7);
+}
+
+.gcit-node-map__legend-dot--unsolved {
+  background: rgba(18, 128, 176, 0.6);
+}
+
+/* Scoreboard rank delta + rival tracker */
+.gcit-rank-delta {
+  font-family: var(--gcit-font-mono);
+  font-size: 0.75rem;
+  margin-left: 0.4rem;
+}
+
+.gcit-rank-delta--up {
+  color: var(--gcit-green-glow);
+}
+
+.gcit-rank-delta--down {
+  color: var(--gcit-orange);
+}
+
+.gcit-rival-panel {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.6rem 1rem;
+  margin-bottom: 0.75rem;
+  border-radius: var(--gcit-radius);
+  background: rgba(18, 128, 176, 0.12);
+  border: 1px solid rgba(18, 128, 176, 0.35);
+  color: var(--gcit-text-body);
+  font-size: 0.85rem;
+}
+
+.gcit-replay-btn {
+  font-size: 0.75rem;
+  padding: 0.25rem 0.7rem;
+}
+
+/* Team contribution bars */
+.gcit-contribution-bar {
+  height: 6px;
+  border-radius: 3px;
+  background: rgba(196, 223, 249, 0.12);
+  overflow: hidden;
+  margin-top: 0.3rem;
+  min-width: 4rem;
+}
+
+.gcit-contribution-bar__fill {
+  height: 100%;
+  background: var(--gcit-green);
+}
+
+/* Haptic-style button press feedback (global) */
+.btn:active {
+  transform: scale(0.97);
+}
+
+.challenge-button:active {
+  transform: scale(0.98) !important;
+}
+
+/* Phase 7 — 3D 3-tier podium
+-------------------------------------------------- */
+.gcit-podium {
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+  gap: 1.25rem;
+  padding: 2.5rem 1rem 0;
+  perspective: 800px;
+}
+
+.gcit-podium__slot {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  cursor: pointer;
+  width: 9rem;
+  transition: transform 0.25s ease;
+
+  &:hover {
+    transform: translateY(-4px) rotateX(2deg);
+  }
+}
+
+.gcit-podium__slot--rival {
+  .gcit-podium__avatar {
+    outline: 2px solid var(--gcit-blue-glow);
+    outline-offset: 3px;
+  }
+}
+
+.gcit-podium__slot--me .gcit-you-tag {
+  margin: 0 0 0.35rem;
+}
+
+.gcit-podium__slot--me {
+  cursor: default;
+
+  &:hover {
+    transform: none;
+  }
+
+  .gcit-podium__avatar {
+    outline: 2px solid var(--gcit-green);
+    outline-offset: 3px;
+    box-shadow: var(--gcit-glow-green);
+  }
+}
+
+.gcit-podium__crown {
+  color: var(--gcit-orange-glow);
+  font-size: 1.4rem;
+  margin-bottom: 0.15rem;
+  filter: drop-shadow(0 0 6px rgba(246, 130, 24, 0.6));
+  animation: gcit-bob 2.2s ease-in-out infinite;
+}
+
+.gcit-podium__avatar {
+  width: 3.25rem;
+  height: 3.25rem;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: var(--gcit-font-mono);
+  font-weight: 700;
+  color: var(--gcit-bg);
+  background: var(--gcit-text-muted);
+  margin-bottom: 0.5rem;
+  border: 2px solid transparent;
+}
+
+.gcit-podium__avatar--gold {
+  background: linear-gradient(145deg, #ffd76a, #f68218);
+  border-color: #ffd76a;
+  box-shadow: 0 0 18px rgba(255, 215, 106, 0.65);
+}
+
+.gcit-podium__avatar--silver {
+  background: linear-gradient(145deg, #eef4fb, #9fb4c4);
+  border-color: #eef4fb;
+  box-shadow: 0 0 14px rgba(238, 244, 251, 0.5);
+}
+
+.gcit-podium__avatar--bronze {
+  background: linear-gradient(145deg, #e3a66b, #a5622b);
+  border-color: #e3a66b;
+  box-shadow: 0 0 14px rgba(227, 166, 107, 0.5);
+}
+
+.gcit-podium__name {
+  color: var(--gcit-text);
+  font-weight: 600;
+  font-size: 0.85rem;
+  max-width: 100%;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+
+  &:hover {
+    color: var(--gcit-green-glow);
+  }
+}
+
+.gcit-podium__score {
+  font-family: var(--gcit-font-mono);
+  color: var(--gcit-text-body);
+  font-size: 0.8rem;
+  margin-bottom: 0.5rem;
+}
+
+.gcit-podium__base {
+  width: 100%;
+  border-radius: 0.4rem 0.4rem 0 0;
+  display: flex;
+  align-items: flex-start;
+  justify-content: center;
+  padding-top: 0.4rem;
+  transform-style: preserve-3d;
+  box-shadow: inset 0 6px 12px rgba(255, 255, 255, 0.08);
+}
+
+.gcit-podium__base--gold {
+  background: linear-gradient(180deg, #ffd76a 0%, #b9760f 100%);
+  box-shadow:
+    var(--gcit-glow-orange),
+    inset 0 6px 12px rgba(255, 255, 255, 0.15);
+}
+
+.gcit-podium__base--silver {
+  background: linear-gradient(180deg, #eef4fb 0%, #7c8e9c 100%);
+}
+
+.gcit-podium__base--bronze {
+  background: linear-gradient(180deg, #e3a66b 0%, #7a4a20 100%);
+}
+
+.gcit-podium__place {
+  font-family: var(--gcit-font-mono);
+  font-weight: 800;
+  font-size: 1.4rem;
+  color: rgba(11, 14, 20, 0.55);
+}
+
+.gcit-podium__hint {
+  font-size: 0.78rem;
+  margin-top: 0.5rem;
+}
+
+/* Rivalry tracker (scoreboard table rows) */
+.gcit-rival-row {
+  cursor: pointer;
+
+  &:hover {
+    background: rgba(18, 128, 176, 0.08);
+  }
+}
+
+.gcit-row--rival {
+  outline: 1px solid rgba(18, 128, 176, 0.5);
+  background: rgba(18, 128, 176, 0.1);
+}
+
+.gcit-row--me {
+  cursor: default;
+  background: rgba(116, 180, 68, 0.14);
+  box-shadow: inset 3px 0 0 var(--gcit-green);
+}
+
+.gcit-you-tag {
+  display: inline-flex;
+  align-items: center;
+  margin-left: 0.4rem;
+  padding: 0.05rem 0.45rem;
+  border-radius: 999px;
+  background: rgba(116, 180, 68, 0.18);
+  border: 1px solid rgba(116, 180, 68, 0.55);
+  color: var(--gcit-green-glow);
+  font-family: var(--gcit-font-mono);
+  font-size: 0.68rem;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
+
+.gcit-rival-tag {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.25rem;
+  margin-left: 0.4rem;
+  padding: 0.05rem 0.45rem;
+  border-radius: 999px;
+  background: rgba(18, 128, 176, 0.2);
+  border: 1px solid rgba(18, 128, 176, 0.5);
+  color: var(--gcit-blue-glow);
+  font-family: var(--gcit-font-mono);
+  font-size: 0.68rem;
+  text-transform: uppercase;
+}
+
+@keyframes gcit-bob {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-3px);
+  }
+}
+
+@media (max-width: 575.98px) {
+  .gcit-podium {
+    gap: 0.5rem;
+  }
+
+  .gcit-podium__slot {
+    width: 6rem;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .gcit-countdown-bar--urgent .gcit-countdown-bar__fill {
+    animation: none;
+  }
+
+  .btn:active,
+  .challenge-button:active {
+    transform: none;
+  }
+
+  .gcit-podium__crown {
+    animation: none;
+  }
+
+  .gcit-podium__slot:hover {
+    transform: none;
+  }
+
+  .gcit-tier-ribbon--first-blood,
+  .gcit-first-blood-banner--available {
+    animation: none;
+  }
+
+  .gcit-flag-fx--incorrect,
+  .gcit-flag-fx--correct {
+    animation: none;
+  }
+}

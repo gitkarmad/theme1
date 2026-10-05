@@ -1,0 +1,375 @@
+/* Landing hero
+-------------------------------------------------- */
+
+.gcit-hero {
+  position: relative;
+  min-height: calc(100vh - var(--gcit-nav-height));
+  display: grid;
+  align-items: center;
+  overflow: hidden;
+  background:
+    radial-gradient(ellipse at 70% 30%, rgba(246, 130, 24, 0.12), transparent 45%),
+    radial-gradient(ellipse at 20% 70%, rgba(18, 128, 176, 0.18), transparent 50%),
+    linear-gradient(160deg, var(--gcit-bg-alt) 0%, var(--gcit-bg) 55%, #05070c 100%);
+}
+
+.gcit-hero__grid {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  background-image:
+    linear-gradient(rgba(116, 180, 68, 0.06) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(116, 180, 68, 0.06) 1px, transparent 1px);
+  background-size: 48px 48px;
+  mask-image: radial-gradient(ellipse at 40% 40%, black 10%, transparent 70%);
+  pointer-events: none;
+}
+
+.gcit-hero__network {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  width: 100%;
+  height: 100%;
+  opacity: 0.45;
+  pointer-events: none;
+  mask-image: linear-gradient(90deg, black 0%, black 28%, transparent 62%);
+  -webkit-mask-image: linear-gradient(
+    90deg,
+    black 0%,
+    black 28%,
+    transparent 62%
+  );
+}
+
+/* Mountain illustration as the hero background, anchored to the right
+   and faded into the dark field so the copy stays readable on the left. */
+.gcit-hero__art {
+  position: absolute;
+  inset: 0 0 0 8%;
+  z-index: 0;
+  pointer-events: none;
+  mask-image: linear-gradient(
+    90deg,
+    transparent 0%,
+    rgba(0, 0, 0, 0.55) 16%,
+    black 38%
+  );
+  -webkit-mask-image: linear-gradient(
+    90deg,
+    transparent 0%,
+    rgba(0, 0, 0, 0.55) 16%,
+    black 38%
+  );
+
+  img {
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: 72% center;
+    filter: saturate(1.08) brightness(1.02);
+  }
+
+  &::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background:
+      linear-gradient(90deg, var(--gcit-bg) 0%, transparent 34%),
+      linear-gradient(180deg, transparent 72%, var(--gcit-bg) 100%);
+    pointer-events: none;
+  }
+}
+
+.gcit-hero__inner {
+  position: relative;
+  z-index: 1;
+  grid-column: 1;
+  grid-row: 1;
+  width: 100%;
+  padding-top: 3rem;
+  padding-bottom: 4rem;
+}
+
+.gcit-hero__content {
+  position: relative;
+  z-index: 2;
+  max-width: 36rem;
+}
+
+.gcit-hero__brand {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  margin-bottom: 1.75rem;
+
+  .gcit-logo-mark {
+    width: 64px;
+    height: 64px;
+    filter: drop-shadow(0 0 12px rgba(116, 180, 68, 0.45));
+    animation: gcit-pulse 3s ease-in-out infinite;
+  }
+
+  .gcit-hero__title {
+    margin: 0;
+    font-size: clamp(2.4rem, 6vw, 4rem);
+    font-weight: 800;
+    letter-spacing: 0.04em;
+    line-height: 1.05;
+    color: var(--gcit-text);
+
+    span {
+      color: var(--gcit-orange);
+    }
+  }
+}
+
+.gcit-hero__headline {
+  max-width: 36rem;
+  margin: 0 0 0.75rem;
+  font-size: clamp(1.15rem, 2.5vw, 1.5rem);
+  font-weight: 600;
+  color: var(--gcit-text);
+}
+
+.gcit-hero__support {
+  max-width: 32rem;
+  margin: 0 0 1.75rem;
+  font-size: 1.05rem;
+  color: var(--gcit-text-body);
+  line-height: 1.55;
+}
+
+.gcit-hero__terminal {
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+  margin-bottom: 2rem;
+  padding: 0.65rem 1rem;
+  max-width: 34rem;
+  background: rgba(11, 14, 20, 0.75);
+  border: 1px solid rgba(116, 180, 68, 0.35);
+  border-radius: 0.4rem;
+  font-family: var(--gcit-font-mono);
+  font-size: 0.9rem;
+  color: var(--gcit-green-glow);
+  box-shadow: var(--gcit-glow-green);
+
+  .gcit-cursor {
+    display: inline-block;
+    width: 0.55em;
+    height: 1.1em;
+    background: var(--gcit-green);
+    animation: gcit-blink 1s step-end infinite;
+    vertical-align: text-bottom;
+  }
+}
+
+.gcit-hero__terminal-log {
+  display: none;
+  max-height: 8rem;
+  overflow-y: auto;
+  font-size: 0.82rem;
+  color: var(--gcit-text-body);
+}
+
+.gcit-hero__terminal-line {
+  padding: 0.1rem 0;
+  white-space: pre-wrap;
+  word-break: break-word;
+}
+
+.gcit-hero__terminal-prompt {
+  display: none;
+  align-items: center;
+  gap: 0.45rem;
+  border-top: 1px dashed rgba(116, 180, 68, 0.25);
+  padding-top: 0.4rem;
+
+  span {
+    color: var(--gcit-green-glow);
+    white-space: nowrap;
+  }
+}
+
+.gcit-hero__terminal-input {
+  flex: 1;
+  min-width: 0;
+  background: transparent;
+  border: none;
+  outline: none;
+  color: var(--gcit-text);
+  font-family: var(--gcit-font-mono);
+  font-size: 0.9rem;
+
+  &::placeholder {
+    color: var(--gcit-text-muted);
+  }
+}
+
+.gcit-hero__terminal--ready {
+  .gcit-hero__terminal-log,
+  .gcit-hero__terminal-prompt {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .gcit-hero__terminal-prompt {
+    flex-direction: row;
+  }
+}
+
+/* Live activity ticker */
+.gcit-ticker {
+  position: relative;
+  z-index: 2;
+  overflow: hidden;
+  background: rgba(11, 14, 20, 0.9);
+  border-bottom: 1px solid rgba(116, 180, 68, 0.25);
+  padding: 0.4rem 0;
+}
+
+.gcit-ticker__track {
+  display: flex;
+  width: max-content;
+  gap: 2.5rem;
+  animation: gcit-ticker-scroll 40s linear infinite;
+  white-space: nowrap;
+}
+
+.gcit-ticker:hover .gcit-ticker__track {
+  animation-play-state: paused;
+}
+
+.gcit-ticker__item {
+  font-family: var(--gcit-font-mono);
+  font-size: 0.82rem;
+  color: var(--gcit-text-body);
+}
+
+.gcit-ticker__time {
+  color: var(--gcit-text-muted);
+}
+
+@keyframes gcit-ticker-scroll {
+  from {
+    transform: translateX(0);
+  }
+  to {
+    transform: translateX(-50%);
+  }
+}
+
+/* Live stats counters */
+.gcit-live-stats {
+  display: flex;
+  gap: 2.25rem;
+  margin-bottom: 1.75rem;
+}
+
+.gcit-live-stats__item {
+  display: flex;
+  flex-direction: column;
+}
+
+.gcit-live-stats__value {
+  font-family: var(--gcit-font-mono);
+  font-size: clamp(1.6rem, 3vw, 2.2rem);
+  font-weight: 700;
+  color: var(--gcit-orange-glow);
+  line-height: 1.1;
+}
+
+.gcit-live-stats__label {
+  font-size: 0.75rem;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  color: var(--gcit-text-muted);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .gcit-ticker__track {
+    animation: none;
+  }
+}
+
+.gcit-hero__ctas {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.85rem;
+
+  .btn {
+    min-width: 9.5rem;
+    padding: 0.7rem 1.25rem;
+    font-weight: 600;
+    letter-spacing: 0.03em;
+  }
+
+  .btn-outline-arena {
+    color: var(--gcit-blue-glow);
+    border: 1px solid var(--gcit-blue);
+    background: transparent;
+
+    &:hover {
+      background: rgba(18, 128, 176, 0.2);
+      color: var(--gcit-text);
+      box-shadow: var(--gcit-glow-blue);
+    }
+  }
+}
+
+.gcit-page-content {
+  padding: 3rem 0 4rem;
+
+  &:empty {
+    display: none;
+  }
+}
+
+@keyframes gcit-blink {
+  50% {
+    opacity: 0;
+  }
+}
+
+@keyframes gcit-pulse {
+  0%,
+  100% {
+    filter: drop-shadow(0 0 8px rgba(116, 180, 68, 0.35));
+  }
+  50% {
+    filter: drop-shadow(0 0 18px rgba(246, 130, 24, 0.55));
+  }
+}
+
+@media (max-width: 991.98px) {
+  .gcit-hero__art {
+    inset: auto 0 0 0;
+    height: 62%;
+    mask-image: linear-gradient(to top, black 10%, transparent 92%);
+    -webkit-mask-image: linear-gradient(to top, black 10%, transparent 92%);
+
+    &::after {
+      background: linear-gradient(to top, transparent 30%, var(--gcit-bg) 100%);
+    }
+  }
+}
+
+@media (max-width: 575.98px) {
+  .gcit-hero__brand {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .gcit-hero__ctas .btn {
+    width: 100%;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .gcit-cursor,
+  .gcit-logo-mark {
+    animation: none;
+  }
+}

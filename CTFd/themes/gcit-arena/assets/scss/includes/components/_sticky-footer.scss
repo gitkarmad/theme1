@@ -1,0 +1,22 @@
+/* Sticky footer styles
+-------------------------------------------------- */
+html {
+  position: relative;
+  min-height: 100%;
+}
+
+main {
+  margin-bottom: 120px;
+}
+
+.footer.gcit-footer {
+  position: absolute;
+  bottom: 0;
+  width: 100%;
+  height: auto;
+  min-height: 72px;
+  line-height: normal;
+  display: flex;
+  align-items: center;
+  z-index: 1;
+}

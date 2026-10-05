@@ -1,0 +1,165 @@
+{
+  "assets/js/index.js": {
+    "file": "assets/index.3dfacea2.js",
+    "src": "assets/js/index.js",
+    "isEntry": true
+  },
+  "assets/js/page.js": {
+    "file": "assets/page.52c526a4.js",
+    "src": "assets/js/page.js",
+    "isEntry": true,
+    "imports": [
+      "assets/js/index.js"
+    ]
+  },
+  "assets/js/home.js": {
+    "file": "assets/home.141ce278.js",
+    "src": "assets/js/home.js",
+    "isEntry": true,
+    "imports": [
+      "assets/js/page.js",
+      "assets/js/index.js"
+    ]
+  },
+  "assets/js/setup.js": {
+    "file": "assets/setup.85801485.js",
+    "src": "assets/js/setup.js",
+    "isEntry": true,
+    "imports": [
+      "assets/js/index.js"
+    ]
+  },
+  "assets/js/settings.js": {
+    "file": "assets/settings.09b5c22b.js",
+    "src": "assets/js/settings.js",
+    "isEntry": true,
+    "imports": [
+      "assets/js/index.js",
+      "_clipboard.23e7edb3.js"
+    ]
+  },
+  "assets/js/challenges.js": {
+    "file": "assets/challenges.8498aab1.js",
+    "src": "assets/js/challenges.js",
+    "isEntry": true,
+    "imports": [
+      "assets/js/index.js"
+    ]
+  },
+  "assets/js/scoreboard.js": {
+    "file": "assets/scoreboard.2d383ce6.js",
+    "src": "assets/js/scoreboard.js",
+    "isEntry": true,
+    "imports": [
+      "assets/js/index.js",
+      "_index.86a4c4d6.js",
+      "_echarts.7a5d4174.js"
+    ]
+  },
+  "assets/js/notifications.js": {
+    "file": "assets/notifications.b63986d7.js",
+    "src": "assets/js/notifications.js",
+    "isEntry": true,
+    "imports": [
+      "assets/js/index.js"
+    ]
+  },
+  "assets/js/teams/public.js": {
+    "file": "assets/teams_public.ab549177.js",
+    "src": "assets/js/teams/public.js",
+    "isEntry": true,
+    "imports": [
+      "assets/js/index.js",
+      "_userscore.c0d8259c.js",
+      "_index.86a4c4d6.js",
+      "_echarts.7a5d4174.js"
+    ]
+  },
+  "assets/js/teams/private.js": {
+    "file": "assets/teams_private.7f23b564.js",
+    "src": "assets/js/teams/private.js",
+    "isEntry": true,
+    "imports": [
+      "assets/js/index.js",
+      "_clipboard.23e7edb3.js",
+      "_userscore.c0d8259c.js",
+      "_index.86a4c4d6.js",
+      "_radar.73596358.js",
+      "_echarts.7a5d4174.js"
+    ]
+  },
+  "assets/js/teams/list.js": {
+    "file": "assets/teams_list.e0ff0166.js",
+    "src": "assets/js/teams/list.js",
+    "isEntry": true,
+    "imports": [
+      "assets/js/index.js"
+    ]
+  },
+  "assets/js/users/public.js": {
+    "file": "assets/users_public.ef6baf91.js",
+    "src": "assets/js/users/public.js",
+    "isEntry": true,
+    "imports": [
+      "assets/js/index.js",
+      "_userscore.c0d8259c.js",
+      "_index.86a4c4d6.js",
+      "_echarts.7a5d4174.js"
+    ]
+  },
+  "assets/js/users/private.js": {
+    "file": "assets/users_private.a0feee22.js",
+    "src": "assets/js/users/private.js",
+    "isEntry": true,
+    "imports": [
+      "assets/js/index.js",
+      "_userscore.c0d8259c.js",
+      "_index.86a4c4d6.js",
+      "_radar.73596358.js",
+      "_echarts.7a5d4174.js"
+    ]
+  },
+  "assets/js/users/list.js": {
+    "file": "assets/users_list.26822725.js",
+    "src": "assets/js/users/list.js",
+    "isEntry": true,
+    "imports": [
+      "assets/js/index.js"
+    ]
+  },
+  "assets/js/color_mode_switcher.js": {
+    "file": "assets/color_mode_switcher.e319ef95.js",
+    "src": "assets/js/color_mode_switcher.js",
+    "isEntry": true
+  },
+  "_echarts.7a5d4174.js": {
+    "file": "assets/echarts.7a5d4174.js"
+  },
+  "_clipboard.23e7edb3.js": {
+    "file": "assets/clipboard.23e7edb3.js",
+    "imports": [
+      "assets/js/index.js"
+    ]
+  },
+  "_index.86a4c4d6.js": {
+    "file": "assets/index.86a4c4d6.js",
+    "imports": [
+      "_echarts.7a5d4174.js"
+    ]
+  },
+  "_userscore.c0d8259c.js": {
+    "file": "assets/userscore.c0d8259c.js",
+    "imports": [
+      "assets/js/index.js",
+      "_index.86a4c4d6.js"
+    ]
+  },
+  "_radar.73596358.js": {
+    "file": "assets/radar.73596358.js"
+  },
+  "assets/scss/main.scss": {
+    "file": "assets/main.5542ddd5.css",
+    "src": "assets/scss/main.scss",
+    "isEntry": true
+  }
+}

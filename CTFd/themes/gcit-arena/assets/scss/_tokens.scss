@@ -1,0 +1,36 @@
+// GCIT Arena design tokens
+$gcit-bg: #0b0e14;
+$gcit-bg-alt: #01173d;
+$gcit-surface: #131b2a;
+$gcit-green: #74b444;
+$gcit-green-glow: #a4cf6b;
+$gcit-orange: #f68218;
+$gcit-orange-glow: #ffa84c;
+$gcit-blue: #1280b0;
+$gcit-blue-glow: #64a5d5;
+$gcit-text: #ffffff;
+$gcit-text-body: #c4dff9;
+$gcit-text-muted: #6c7a89;
+
+:root {
+  --gcit-bg: #{$gcit-bg};
+  --gcit-bg-alt: #{$gcit-bg-alt};
+  --gcit-surface: #{$gcit-surface};
+  --gcit-green: #{$gcit-green};
+  --gcit-green-glow: #{$gcit-green-glow};
+  --gcit-orange: #{$gcit-orange};
+  --gcit-orange-glow: #{$gcit-orange-glow};
+  --gcit-blue: #{$gcit-blue};
+  --gcit-blue-glow: #{$gcit-blue-glow};
+  --gcit-text: #{$gcit-text};
+  --gcit-text-body: #{$gcit-text-body};
+  --gcit-text-muted: #{$gcit-text-muted};
+  --gcit-glow-green: 0 0 15px rgba(116, 180, 68, 0.4);
+  --gcit-glow-orange: 0 0 15px rgba(246, 130, 24, 0.4);
+  --gcit-glow-blue: 0 0 15px rgba(18, 128, 176, 0.4);
+  --gcit-font-sans: "Inter", system-ui, sans-serif;
+  --gcit-font-mono: "JetBrains Mono", ui-monospace, monospace;
+  --gcit-nav-height: 3.75rem;
+  --gcit-radius: 0.5rem;
+  --gcit-glass: rgba(19, 27, 42, 0.72);
+}

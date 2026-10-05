@@ -1,0 +1,26 @@
+/* Graph styles
+-------------------------------------------------- */
+
+#score-graph {
+  min-height: 400px;
+  background: var(--gcit-glass);
+  border: 1px solid rgba(100, 165, 213, 0.25);
+  border-radius: var(--gcit-radius);
+  padding: 1rem;
+  margin-bottom: 1.5rem;
+}
+
+#solves-graph {
+  display: block;
+  height: 350px;
+}
+
+#keys-pie-graph {
+  min-height: 400px;
+  display: block;
+}
+
+#categories-pie-graph {
+  min-height: 400px;
+  display: block;
+}

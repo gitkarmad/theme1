@@ -1,0 +1,36 @@
+{
+  "name": "gcit-arena",
+  "private": true,
+  "version": "1.0.0",
+  "scripts": {
+    "dev": "vite build --watch --mode=development",
+    "build": "vite build",
+    "format": "prettier --write assets/",
+    "lint": "prettier --check assets/",
+    "verify": "vite build && git add -N -- static && git diff --exit-code -- static",
+    "hooks:install": "node scripts/install-hooks.js",
+    "postinstall": "node scripts/install-hooks.js"
+  },
+  "dependencies": {
+    "@ctfdio/ctfd-js": "^0.0.19",
+    "@fortawesome/fontawesome-free": "6.5.1",
+    "@popperjs/core": "^2.11.4",
+    "alpinejs": "^3.9.1",
+    "bootstrap": "^5.3.3",
+    "bootstrap-multimodal": "~1.0.4",
+    "canvas-confetti": "^1.9.4",
+    "chart.js": "^4.5.1",
+    "countup.js": "^2.10.1",
+    "dayjs": "^1.11.0",
+    "echarts": "^5.3.2",
+    "lolight": "^1.4.0",
+    "vue": "^3.2.25"
+  },
+  "devDependencies": {
+    "@vitejs/plugin-vue": "^3.0.1",
+    "prettier": "^3.2.5",
+    "rollup-plugin-copy": "^3.4.0",
+    "sass": "^1.49.7",
+    "vite": "^3.0.5"
+  }
+}

@@ -1,0 +1,23 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" fill="none" aria-hidden="true">
+  <defs>
+    <linearGradient id="gcitHex" x1="8" y1="4" x2="56" y2="60" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#74B444"/>
+      <stop offset="0.5" stop-color="#1280B0"/>
+      <stop offset="1" stop-color="#F68218"/>
+    </linearGradient>
+  </defs>
+  <path
+    d="M32 4L56 18V46L32 60L8 46V18L32 4Z"
+    stroke="url(#gcitHex)"
+    stroke-width="3"
+    fill="#131B2A"
+  />
+  <path
+    d="M32 14L48 23.5V42.5L32 52L16 42.5V23.5L32 14Z"
+    stroke="#74B444"
+    stroke-width="1.5"
+    opacity="0.7"
+  />
+  <circle cx="32" cy="33" r="6" fill="#F68218"/>
+  <circle cx="32" cy="33" r="2.5" fill="#FFFFFF"/>
+</svg>

@@ -1,0 +1,193 @@
+/* Challenge styles
+-------------------------------------------------- */
+
+.challenge-desc {
+  overflow-wrap: anywhere;
+  color: var(--gcit-text-body);
+
+  img {
+    max-width: 100%;
+  }
+}
+
+.category-header h3 {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.75rem;
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--gcit-text);
+
+  &::before {
+    content: "";
+    width: 1.1rem;
+    height: 1.25rem;
+    background: var(--gcit-orange);
+    clip-path: polygon(50% 0%, 100% 25%, 100% 75%, 50% 100%, 0% 75%, 0% 25%);
+    box-shadow: var(--gcit-glow-orange);
+  }
+}
+
+.challenge-button {
+  position: relative;
+  overflow: hidden;
+  border: 1px solid rgba(100, 165, 213, 0.35) !important;
+  border-radius: var(--gcit-radius);
+  background: var(--gcit-glass) !important;
+  backdrop-filter: blur(10px);
+  color: var(--gcit-text) !important;
+  box-shadow: none;
+  transition:
+    transform 0.2s ease,
+    border-color 0.2s ease,
+    box-shadow 0.2s ease;
+
+  &::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(
+      180deg,
+      transparent 0%,
+      rgba(116, 180, 68, 0.08) 50%,
+      transparent 100%
+    );
+    background-size: 100% 200%;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.25s ease;
+  }
+
+  .challenge-inner {
+    position: relative;
+    z-index: 1;
+
+    p {
+      margin-bottom: 0.35rem;
+      font-weight: 600;
+    }
+
+    span {
+      font-family: var(--gcit-font-mono);
+      color: var(--gcit-orange);
+      font-size: 0.95rem;
+    }
+  }
+
+  &:hover {
+    transform: translateY(-2px);
+    border-color: var(--gcit-blue-glow) !important;
+    box-shadow: var(--gcit-glow-blue);
+
+    &::after {
+      opacity: 1;
+      animation: gcit-scan 1.4s linear infinite;
+    }
+  }
+
+  &.challenge-solved {
+    border-color: var(--gcit-green) !important;
+    background: rgba(116, 180, 68, 0.18) !important;
+    box-shadow: var(--gcit-glow-green);
+
+    .challenge-inner span {
+      color: var(--gcit-green-glow);
+    }
+
+    &:hover {
+      background: rgba(116, 180, 68, 0.28) !important;
+      border-color: var(--gcit-green-glow) !important;
+    }
+  }
+}
+
+.challenge-input {
+  font-family: var(--gcit-font-mono) !important;
+  background: var(--gcit-bg) !important;
+  border: 1px solid rgba(116, 180, 68, 0.35) !important;
+  color: var(--gcit-text) !important;
+
+  &:focus {
+    border-color: var(--gcit-green) !important;
+    box-shadow: var(--gcit-glow-green) !important;
+  }
+}
+
+.challenge-submit {
+  border-color: var(--gcit-orange) !important;
+  color: var(--gcit-orange) !important;
+
+  &:hover {
+    background: var(--gcit-orange) !important;
+    color: var(--gcit-bg) !important;
+    box-shadow: var(--gcit-glow-orange);
+  }
+}
+
+#challenge-window .modal-content {
+  background: var(--gcit-surface);
+  border: 1px solid rgba(116, 180, 68, 0.25);
+  box-shadow: var(--gcit-glow-green);
+  color: var(--gcit-text);
+}
+
+#challenge-window .nav-tabs {
+  border-bottom-color: rgba(100, 165, 213, 0.25);
+
+  .nav-link {
+    color: var(--gcit-text-muted);
+
+    &.active {
+      color: var(--gcit-green-glow);
+      background: transparent;
+      border-color: rgba(116, 180, 68, 0.4) rgba(116, 180, 68, 0.4) var(--gcit-surface);
+    }
+  }
+}
+
+@keyframes gcit-scan {
+  0% {
+    background-position: 0% -100%;
+  }
+  100% {
+    background-position: 0% 200%;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .challenge-button:hover::after {
+    animation: none;
+  }
+
+  .challenge-button {
+    transition: none;
+  }
+}
+
+/* Phase 7 — category emoji badges + copy-command button
+-------------------------------------------------- */
+.gcit-category-icon {
+  display: inline-block;
+  margin-right: 0.3rem;
+  filter: drop-shadow(0 0 4px rgba(116, 180, 68, 0.35));
+}
+
+.gcit-view-toggle {
+  font-size: 0.8rem;
+}
+
+.gcit-conn-row {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.gcit-copy-btn {
+  font-size: 0.75rem;
+  padding: 0.15rem 0.55rem;
+
+  .fa-check {
+    color: var(--gcit-green-glow);
+  }
+}
